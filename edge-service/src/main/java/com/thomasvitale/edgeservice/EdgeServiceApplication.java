@@ -30,7 +30,6 @@ public class EdgeServiceApplication {
                 .oauth2Login(Customizer.withDefaults())
                 .build();
     }
-
 }
 
 @RestController
