@@ -2,6 +2,7 @@ package com.thomasvitale.bookservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,9 @@ import java.util.List;
 @SpringBootApplication
 public class BookServiceApplication {
 
+    @Autowired
+    CustomJwtAuthenticationConverter customJwtAuthenticationConverter;
+
     public static void main(String[] args) {
         SpringApplication.run(BookServiceApplication.class, args);
     }
@@ -28,7 +32,11 @@ public class BookServiceApplication {
                         .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                      //  .jwt(Customizer.withDefaults())
+                      .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(customJwtAuthenticationConverter))
+
+                )
                 .build();
     }
 

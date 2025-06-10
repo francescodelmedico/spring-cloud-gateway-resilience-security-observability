@@ -22,7 +22,9 @@ spring:
       default-filters:
         - SaveSession
         - TokenRelay
-
+        - name: CustomGatewayFilter
+          args:
+            myParam: "SomeValue"
       routes:
         - id: book-route
           uri: ${BOOK_SERVICE_URL:http://localhost:9001}
